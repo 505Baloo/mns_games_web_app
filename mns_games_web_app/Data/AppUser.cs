@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace mns_games_web_app.Data
 {
@@ -28,8 +29,9 @@ namespace mns_games_web_app.Data
         [StringLength(50)]
         public string? City { get; set; }
 
-        [StringLength(64)]
-        public string? Country { get; set; }
+        [ForeignKey("CountryId")]
+        public Country? Country { get; set; }
+        public int? CountryId { get; set; }
 
         public DateTime DateJoined { get; set; }
     }

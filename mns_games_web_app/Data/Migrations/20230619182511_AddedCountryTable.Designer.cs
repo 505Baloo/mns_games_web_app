@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mns_games_web_app.Data;
 
@@ -11,9 +12,10 @@ using mns_games_web_app.Data;
 namespace mns_games_web_app.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230619182511_AddedCountryTable")]
+    partial class AddedCountryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,22 +49,6 @@ namespace mns_games_web_app.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "23d2f4de-bc3f-4fdc-eaed-e8231005f4bb",
-                            ConcurrencyStamp = "e8c7f1c3-e9da-40c2-95cc-8be3ca935d09",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "15d2b4dd-bc5f-4fcc-baed-e8290805f4cb",
-                            ConcurrencyStamp = "fb30d889-513a-4b1c-90f7-0a1e82e56d0a",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -152,18 +138,6 @@ namespace mns_games_web_app.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "23d0f9de-bc4f-1fdc-eaed-e9312905f4bb",
-                            RoleId = "23d2f4de-bc3f-4fdc-eaed-e8231005f4bb"
-                        },
-                        new
-                        {
-                            UserId = "40df79cc-c203-472b-ac45-53d7b01be4ab",
-                            RoleId = "15d2b4dd-bc5f-4fcc-baed-e8290805f4cb"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -322,50 +296,6 @@ namespace mns_games_web_app.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "23d0f9de-bc4f-1fdc-eaed-e9312905f4bb",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "679761f7-55f2-4fde-8d5e-26b7a75ccf0c",
-                            DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            IsAdmin = true,
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            Nickname = "Master",
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIEdxbxiBthPIFxBBPjQc5kcuULDBLRxHNsTsbYFiS6uIJ3gxUqEFnvnfBZoz1Dd2Q==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "90329d0d-d35b-4814-a248-12c8fc912d86",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
-                        },
-                        new
-                        {
-                            Id = "40df79cc-c203-472b-ac45-53d7b01be4ab",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "73671f14-44f9-47c9-8e58-7eeca11a8434",
-                            DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "user@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "System",
-                            IsAdmin = false,
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            Nickname = "Peon",
-                            NormalizedEmail = "USER@LOCALHOST.COM",
-                            NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBLn73vRLLYQmYECuPDINBtzAtH6lBB5QJB1TOHk6A4bVi7q173ty3DEwkbxjx3jjQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "4b42d1ba-c6b6-4389-8cd1-5c52d344ef60",
-                            TwoFactorEnabled = false,
-                            UserName = "user@localhost.com"
-                        });
                 });
 
             modelBuilder.Entity("mns_games_web_app.Data.Country", b =>
