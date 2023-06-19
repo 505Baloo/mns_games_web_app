@@ -5,6 +5,9 @@ namespace mns_games_web_app.Data
 {
     public class AppUser : IdentityUser
     {
+        [StringLength(32)]
+        public string Nickname { get; set; }
+
         [StringLength(64)]
         public string? FirstName { get; set; }
         
