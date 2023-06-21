@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'freckleface-regular';
+    src: url('../assets/fonts/freckleface-regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'notosansjp-regular';
+    src: url('../assets/fonts/notosansjp-regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'poppins-regular';
+    src: url('../assets/fonts/poppins-regular.ttf') format('truetype');
+}
 html {
   font-size: 14px;
 }
@@ -14,5 +28,17 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.poppins {
+    font-family: 'poppins-regular' !important;
+}
+
+.noto {
+    font-family: 'notosansjp-regular' !important;
+}
+
+.freckleface {
+    font-family: 'freckleface-regular' !important;
 }

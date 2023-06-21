@@ -8,9 +8,10 @@ namespace mns_games_web_app.Configurations
     {
         public MapperConfig()
         {
-            //CreateMap<Quiz, QuizVM>().ReverseMap();
-            CreateMap<Quiz, QuizVM>()
-            .ForMember(dest => dest.ThemeName, opt => opt.MapFrom(src => src.Theme.Title));
+            CreateMap<Quiz, QuizVM>().ReverseMap();
+            CreateMap<Theme, ThemeVM>().ReverseMap();
+            //CreateMap<Quiz, QuizVM>()
+            //.ForMember(dest => dest.Theme, opt => opt.MapFrom(src => src.Theme));
         }
     }
 }

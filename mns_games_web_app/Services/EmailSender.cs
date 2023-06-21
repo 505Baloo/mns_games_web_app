@@ -19,7 +19,7 @@ namespace mns_games_web_app.Services
             this._fromEmail = fromEmailParam;
         }
 
-        public Task SendEmailAsync(string receiverEmail, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string receiverEmail, string subject, string htmlMessage)
         {
             // Configure message
             var message = new MailMessage
@@ -40,11 +40,35 @@ namespace mns_games_web_app.Services
                 Credentials = new NetworkCredential("noreply.mnsgames@gmail.com", "sdWj27rwYTacJfEI"),
             };
 
-            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
-            client.Send(message);
+            client.EnableSsl = true;
+            client.TargetName = "STARTTLS/smtp.sendinblue.com";
 
-            return Task.CompletedTask;
+            try
+            {
+                // Send email
+                await client.SendMailAsync(message);
+            }
+            catch (SmtpException ex)
+            {
+                // Handle SmtpException
+                if (ex.InnerException is System.Security.Authentication.AuthenticationException)
+                {
+                    Console.WriteLine("Certificate validation failed. Error: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    // Other SMTP-related exception
+                    Console.WriteLine("SMTP error occurred. Error: " + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                Console.WriteLine("An error occurred while sending the email. Error: " + ex.Message);
+                // throw new CustomEmailException("Failed to send email.", ex);
+            }
         }
     }
 }

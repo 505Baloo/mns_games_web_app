@@ -52,7 +52,7 @@ namespace mns_games_web_app.Controllers
         // GET: Quizs/Create
         public IActionResult Create()
         {
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Id");
+            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Title");
             return View();
         }
 
@@ -61,16 +61,18 @@ namespace mns_games_web_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Duration,ThemeId,AppUserId")] Quiz quiz)
+        public async Task<IActionResult> Create([Bind("Id,Name,Duration,ThemeId,AppUserId")] CreateQuizVM createQuizVM)
         {
             if (ModelState.IsValid)
             {
+                // convert to actual data entity
+                var quiz = _mapper.Map<Quiz>(createQuizVM);
                 _context.Add(quiz);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Id", quiz.ThemeId);
-            return View(quiz);
+            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Title", createQuizVM.Theme.Id);
+            return View(createQuizVM);
         }
 
         // GET: Quizs/Edit/5

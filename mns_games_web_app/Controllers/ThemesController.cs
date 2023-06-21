@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mns_games_web_app.Data;
+using mns_games_web_app.Models.ViewModels;
 
 namespace mns_games_web_app.Controllers
 {
     public class ThemesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ThemesController(ApplicationDbContext context)
+        public ThemesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Themes
         public async Task<IActionResult> Index()
         {
               return _context.Themes != null ? 
-                          View(await _context.Themes.ToListAsync()) :
+                          View(_mapper.Map<List<ThemeVM>>(await _context.Themes.ToListAsync())) :
                           Problem("Entity set 'ApplicationDbContext.Themes' is null.");
         }
 
@@ -41,7 +45,8 @@ namespace mns_games_web_app.Controllers
                 return NotFound();
             }
 
-            return View(theme);
+            ThemeVM themeVM = _mapper.Map<ThemeVM>(theme);
+            return View(themeVM);
         }
 
         // GET: Themes/Create
@@ -55,15 +60,16 @@ namespace mns_games_web_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] Theme theme)
+        public async Task<IActionResult> Create(ThemeVM themeVM)
         {
             if (ModelState.IsValid)
             {
+                var theme = _mapper.Map<Theme>(themeVM);
                 _context.Add(theme);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(theme);
+            return View(themeVM);
         }
 
         // GET: Themes/Edit/5
@@ -79,7 +85,8 @@ namespace mns_games_web_app.Controllers
             {
                 return NotFound();
             }
-            return View(theme);
+            var themeVM = _mapper.Map<ThemeVM>(theme);
+            return View(themeVM);
         }
 
         // POST: Themes/Edit/5
@@ -87,9 +94,9 @@ namespace mns_games_web_app.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Theme theme)
+        public async Task<IActionResult> Edit(int id, ThemeVM themeVM)
         {
-            if (id != theme.Id)
+            if (id != themeVM.Id)
             {
                 return NotFound();
             }
@@ -98,12 +105,13 @@ namespace mns_games_web_app.Controllers
             {
                 try
                 {
+                    var theme = _mapper.Map<Theme>(themeVM);
                     _context.Update(theme);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ThemeExists(theme.Id))
+                    if (!ThemeExists(themeVM.Id))
                     {
                         return NotFound();
                     }
@@ -114,7 +122,7 @@ namespace mns_games_web_app.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(theme);
+            return View(themeVM);
         }
 
         // GET: Themes/Delete/5
