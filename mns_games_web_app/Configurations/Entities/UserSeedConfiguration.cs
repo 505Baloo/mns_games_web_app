@@ -22,7 +22,6 @@ namespace mns_games_web_app.Configurations.Entities
                     FirstName = "System",
                     LastName = "Admin",
                     Nickname = "Master",
-                    IsAdmin = true,
                     PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                     EmailConfirmed = true
                 },
@@ -36,7 +35,6 @@ namespace mns_games_web_app.Configurations.Entities
                     FirstName = "System",
                     LastName = "User",
                     Nickname = "Peon",
-                    IsAdmin = false,
                     PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                     EmailConfirmed = true
                 }

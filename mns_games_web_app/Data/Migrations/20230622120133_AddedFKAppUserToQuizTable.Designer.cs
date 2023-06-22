@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mns_games_web_app.Data;
 
@@ -11,9 +12,10 @@ using mns_games_web_app.Data;
 namespace mns_games_web_app.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230622120133_AddedFKAppUserToQuizTable")]
+    partial class AddedFKAppUserToQuizTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +54,14 @@ namespace mns_games_web_app.Data.Migrations
                         new
                         {
                             Id = "23d2f4de-bc3f-4fdc-eaed-e8231005f4bb",
-                            ConcurrencyStamp = "69138bf9-4776-463b-b3bb-315a6d57fe4a",
+                            ConcurrencyStamp = "64fd08f6-2bbc-4c95-9635-4af485bd9b76",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "15d2b4dd-bc5f-4fcc-baed-e8290805f4cb",
-                            ConcurrencyStamp = "4af2acd4-2c25-490a-9cb4-716d11998ec2",
+                            ConcurrencyStamp = "261eb689-9b1b-4373-8889-f88c720ac154",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -252,6 +254,9 @@ namespace mns_games_web_app.Data.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
@@ -325,19 +330,20 @@ namespace mns_games_web_app.Data.Migrations
                         {
                             Id = "23d0f9de-bc4f-1fdc-eaed-e9312905f4bb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd0dbf03-58a0-4e14-ba0c-32b992791085",
+                            ConcurrencyStamp = "82c04cae-2a39-4b96-92e0-e636faba38cc",
                             DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            IsAdmin = true,
                             LastName = "Admin",
                             LockoutEnabled = false,
                             Nickname = "Master",
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEChu6uLt+seWF1ahyo3RX45IIisw6uEmPl3ibssieMv7uCvi/aqlk+RvTxmBZ6Hjew==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI6MCMa9RlWrcEASVEOO2E8LMXyzrmxIt47zjI7ojy3L3iSCC14Pc5D+TMQywifO+w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "117ee715-70fc-4810-8185-126dbee48b59",
+                            SecurityStamp = "15b60cd8-61fa-4e2d-a766-a69bcb05e972",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -345,19 +351,20 @@ namespace mns_games_web_app.Data.Migrations
                         {
                             Id = "40df79cc-c203-472b-ac45-53d7b01be4ab",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8842db24-c759-4a0c-80bd-8071d32e5cb5",
+                            ConcurrencyStamp = "6d73c222-a621-4fef-894b-062e3c6c01d5",
                             DateJoined = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            IsAdmin = false,
                             LastName = "User",
                             LockoutEnabled = false,
                             Nickname = "Peon",
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJvVVADOySWzAsf24Ir4xciiaaF3BSMMupPTnxMhppAsi32l/zM4tvdxXTkGgYppmg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF9VPpwhtHKPWVIQaHSDTfB2ayVYoyK8TZjJiQjL1+B1mSDTJyw5DRM9JOTAY8rl0w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bd3aeba6-48f8-4d52-8f54-9fa8ba5faddb",
+                            SecurityStamp = "1583780d-a4b8-40f9-a237-d4bdd69164d6",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         });

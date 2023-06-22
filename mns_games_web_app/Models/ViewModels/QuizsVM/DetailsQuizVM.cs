@@ -1,10 +1,10 @@
 ﻿using mns_games_web_app.Data;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
-namespace mns_games_web_app.Models.ViewModels
+namespace mns_games_web_app.Models
 {
-    public class QuizVM
+    public class DetailsQuizVM
     {
         public int Id { get; set; }
 
@@ -15,7 +15,6 @@ namespace mns_games_web_app.Models.ViewModels
 
         public Theme Theme { get; set; }
 
-        [Display(Name = "Creator")]
         public AppUser AppUser { get; set; }
     }
 }

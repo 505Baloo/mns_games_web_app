@@ -24,7 +24,7 @@
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
             <br />
-            @Html.DropDownListFor(model => model.Theme.Id, (SelectList)ViewData["ThemeId"], "Select a theme", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.ThemeId, (SelectList)ViewData["ThemeId"], "Select a theme", new { @class = "form-control" })
             <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

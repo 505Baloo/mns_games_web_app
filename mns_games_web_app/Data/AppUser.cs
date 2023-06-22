@@ -15,8 +15,6 @@ namespace mns_games_web_app.Data
         [StringLength(64)]
         public string? LastName { get; set; }
 
-        public bool IsAdmin { get; set; }
-
         [StringLength(64)]
         public string? StreetName { get; set; }
 
@@ -34,5 +32,7 @@ namespace mns_games_web_app.Data
         public int? CountryId { get; set; }
 
         public DateTime DateJoined { get; set; }
+
+        public ICollection<Quiz> Quizzes { get; set; }
     }
 }

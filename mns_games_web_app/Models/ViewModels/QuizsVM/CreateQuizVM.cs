@@ -13,6 +13,6 @@ namespace mns_games_web_app.Models.ViewModels
         [Display(Name = "Maximum Duration")]
         public TimeSpan? Duration { get; set; }
 
-        public Theme Theme { get; set; }
+        public int ThemeId { get; set; }
     }
 }

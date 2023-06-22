@@ -38,21 +38,19 @@ namespace mns_games_web_app.Services
             {
                 EnableSsl = true,
                 Credentials = new NetworkCredential("noreply.mnsgames@gmail.com", "sdWj27rwYTacJfEI"),
+                TargetName = "STARTTLS/smtp.sendinblue.com",
             };
 
             //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-
-            client.EnableSsl = true;
-            client.TargetName = "STARTTLS/smtp.sendinblue.com";
 
             try
             {
                 // Send email
                 await client.SendMailAsync(message);
             }
+            // Handle SmtpException
             catch (SmtpException ex)
             {
-                // Handle SmtpException
                 if (ex.InnerException is System.Security.Authentication.AuthenticationException)
                 {
                     Console.WriteLine("Certificate validation failed. Error: " + ex.InnerException.Message);

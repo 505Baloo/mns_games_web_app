@@ -22,7 +22,6 @@ namespace mns_games_web_app.Data
         {
             base.OnModelCreating(modelBuilder);
 
-
             modelBuilder.Entity<AppUser>()
                 .HasOne(u => u.Country)
                 .WithMany(p => p.AppUsers)
