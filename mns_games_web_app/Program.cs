@@ -2,14 +2,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using mns_games_web_app.Data;
 using mns_games_web_app.Configurations;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using mns_games_web_app.Services;
+using mns_games_web_app.Abstract.Interfaces;
+using mns_games_web_app.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("devLaptop");
+var connectionString = builder.Configuration.GetConnectionString("devHome");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -19,6 +20,9 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddTransient<IEmailSender>(options => new EmailSender("smtp-relay.sendinblue.com", 587, "noreply.mnsgames@gmail.com"));
+
+builder.Services.AddScoped(typeof(IBasicRepository<>), typeof(BasicRepository<>));
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 

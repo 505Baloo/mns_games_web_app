@@ -18,6 +18,8 @@ namespace mns_games_web_app.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+
+
         public QuizsController(ApplicationDbContext context, IMapper mapper, UserManager<AppUser> userManager)
         {
             _context = context;
