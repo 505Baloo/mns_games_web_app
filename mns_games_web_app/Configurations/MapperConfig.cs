@@ -14,6 +14,8 @@ namespace mns_games_web_app.Configurations
             CreateMap<Quiz, QuizVM>().ReverseMap();
             CreateMap<Quiz, DetailsQuizVM>().ReverseMap();
             CreateMap<Quiz, EditQuizVM>().ReverseMap();
+            CreateMap<AppUser, AppUserListVM>().ReverseMap();
+            CreateMap<AppUser, AppUserQuizsVM>().ReverseMap();
         }
     }
 }

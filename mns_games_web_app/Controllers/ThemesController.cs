@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using mns_games_web_app.Models.ViewModels;
 
 namespace mns_games_web_app.Controllers
 {
+    [Authorize]
     public class ThemesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,9 +27,9 @@ namespace mns_games_web_app.Controllers
         // GET: Themes
         public async Task<IActionResult> Index()
         {
-              return _context.Themes != null ? 
-                          View(_mapper.Map<List<ThemeVM>>(await _context.Themes.ToListAsync())) :
-                          Problem("Entity set 'ApplicationDbContext.Themes' is null.");
+            return _context.Themes != null ? 
+                        View(_mapper.Map<List<ThemeVM>>(await _context.Themes.ToListAsync())) :
+                        Problem("Entity set 'ApplicationDbContext.Themes' is null.");
         }
 
         // GET: Themes/Details/5

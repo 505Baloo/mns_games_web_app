@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using mns_games_web_app.Configurations.Entities;
+using mns_games_web_app.Models;
 
 namespace mns_games_web_app.Data
 {
@@ -32,5 +33,7 @@ namespace mns_games_web_app.Data
             modelBuilder.ApplyConfiguration(new UserSeedConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleSeedConfiguration());
         }
+
+        public DbSet<mns_games_web_app.Models.AppUserQuizsVM>? AppUserQuizsVM { get; set; }
     }
 }

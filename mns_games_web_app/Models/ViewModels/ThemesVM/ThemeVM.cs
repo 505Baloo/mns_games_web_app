@@ -6,7 +6,7 @@ namespace mns_games_web_app.Models.ViewModels
     {
         public int Id { get; set; }
         [Required]
-        [Display(Name ="Theme Name")]
+        [Display(Name = "Name")]
         [StringLength(200, ErrorMessage = "Please enter a valid Title")]
         public string Title { get; set; }
     }

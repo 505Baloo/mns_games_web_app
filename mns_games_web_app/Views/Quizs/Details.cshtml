@@ -4,39 +4,23 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h3>Details</h3>
 
 <div>
-    <h4>Quiz</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-4">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-4">
-            @Html.DisplayNameFor(model => model.Duration)
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
-        <dt class = "col-sm-4">
-            @Html.DisplayNameFor(model => model.Theme)
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Theme.Title)
-        </dd>
-        <dt class = "col-sm-4">
-            @Html.DisplayNameFor(model => model.AppUser.Nickname)
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.AppUser.Nickname)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" class="btn btn-primary m-2" asp-route-id="@Model?.Id">Edit</a>
-    <a asp-action="Index" class="btn btn-dark">Back to List</a>
+    <div class="row">
+        <div class="col-sm-6">
+        <div class="card">
+          <h5 class="card-header">Quiz</h5>
+          <div class="card-body">
+                    <p class="card-title">Created by : @Html.DisplayFor(model => model.AppUser.Nickname)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Id) : @Html.DisplayFor(model => model.Id)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Name) : @Html.DisplayFor(model => model.Name)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Theme) : @Html.DisplayFor(model => model.Theme.Title)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Duration) : @Html.DisplayFor(model => model.Duration)</p>
+                    <a asp-action="Edit" class="btn btn-primary m-2" asp-route-id="@Model?.Id">Edit</a>
+                    <a asp-action="Index" class="btn btn-dark">Back to List</a>
+          </div>
+        </div>
+        </div>
+    </div>
 </div>

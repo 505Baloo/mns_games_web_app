@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - mns_games_web_app</title>
+    <title>@ViewData["Title"] - MNS Games</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" asp-append-version="true" />
@@ -26,14 +26,16 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Themes" asp-action="Index">Themes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Quizs" asp-action="Index">Quizs</a>
                         </li>
                         @if (User.IsInRole(mns_games_web_app.Constants.Roles.Administrator))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Themes" asp-action="Index">Themes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Quizs" asp-action="Index">Quizs</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
                             </li>
                         }
                     </ul>

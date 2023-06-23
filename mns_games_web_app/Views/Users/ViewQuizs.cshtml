@@ -1,0 +1,51 @@
+﻿@model AppUserQuizsVM
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h3>Quizs from that user</h3>
+<br />
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <h5 class="card-header">User</h5>
+                <div class="card-body">
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Id) : @Html.DisplayFor(model => model.Id)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Firstname) : @Html.DisplayFor(model => model.Firstname)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Lastname) : @Html.DisplayFor(model => model.Lastname)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Nickname) : @Html.DisplayFor(model => model.Nickname)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.Email) : @Html.DisplayFor(model => model.Email)</p>
+                    <p class="card-text">@Html.DisplayNameFor(model => model.DateJoined) : @Html.DisplayFor(model => model.DateJoined)</p>
+                    <a asp-action="Index" class="btn btn-dark">Back to List</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Quizs</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var quiz in Model.Quizs)
+                    {
+                        <li class="list-group-item">
+                            <h6>
+                                <button type="button" class="btn btn-primary">
+                                    Name
+                                    <span class="badge text-bg-secondary">@quiz.Name</span>
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    Theme  
+                                    <span class="badge text-bg-secondary">@quiz.Theme.Title</span>
+                                </button>
+                            </h6>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

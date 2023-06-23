@@ -23,6 +23,7 @@ builder.Services.AddTransient<IEmailSender>(options => new EmailSender("smtp-rel
 
 builder.Services.AddScoped(typeof(IBasicRepository<>), typeof(BasicRepository<>));
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<IThemeRepository, ThemeRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 

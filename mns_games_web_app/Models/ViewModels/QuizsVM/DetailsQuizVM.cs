@@ -13,8 +13,10 @@ namespace mns_games_web_app.Models
         [Display(Name = "Maximum Duration")]
         public TimeSpan? Duration { get; set; }
 
+        [Display(Name = "Is about")]
         public Theme Theme { get; set; }
 
+        [Display(Name = "Created by")]
         public AppUser AppUser { get; set; }
     }
 }

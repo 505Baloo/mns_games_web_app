@@ -136,6 +136,7 @@ namespace mns_games_web_app.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.Nickname = Input.Nickname;
+                user.DateJoined = DateTime.Now;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -154,8 +155,8 @@ namespace mns_games_web_app.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Hey, it's time to confirm your email!",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Hey, it's time to confirm your email! I know it's tiring but you're actually helping us!",
+                        $"Please confirm your account creation by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking on this link</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using mns_games_web_app.Abstract.Interfaces;
 using mns_games_web_app.Data;
 using mns_games_web_app.Models;
 using mns_games_web_app.Models.ViewModels;
 
 namespace mns_games_web_app.Controllers
 {
+    [Authorize]
     public class QuizsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IThemeRepository _themeRepository;
+        private readonly IQuizRepository _quizRepository;
         private readonly UserManager<AppUser> _userManager;
 
 
-        public QuizsController(ApplicationDbContext context, IMapper mapper, UserManager<AppUser> userManager)
+        public QuizsController(IQuizRepository quizRepository, IThemeRepository themeRepository, IMapper mapper, UserManager<AppUser> userManager)
         {
-            _context = context;
+            _quizRepository = quizRepository;
+            _themeRepository = themeRepository;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -30,24 +35,16 @@ namespace mns_games_web_app.Controllers
         // GET: Quizs
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Quizzes.Include(q => q.Theme).Include(q => q.AppUser);
 
-            var quizs = _mapper.Map<List<QuizVM>>(await applicationDbContext.ToListAsync());
-            return View(quizs);
+            var quizs = await _quizRepository.GetAllIncludesAsync(q => q.Theme, q => q.AppUser);
+            var quizsVM = _mapper.Map<List<QuizVM>>(quizs);
+            return View(quizsVM);
         }
 
         // GET: Quizs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Quizzes == null)
-            {
-                return NotFound();
-            }
-
-            var quiz = await _context.Quizzes
-                .Include(q => q.Theme)
-                .Include(q => q.AppUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var quiz = await _quizRepository.GetIncludesAsync(id, q => q.Theme, q => q.AppUser);
             if (quiz == null)
             {
                 return NotFound();
@@ -57,9 +54,10 @@ namespace mns_games_web_app.Controllers
         }
 
         // GET: Quizs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Title");
+            var themes = await _themeRepository.GetAllAsync();
+            ViewData["ThemeId"] = new SelectList(themes, "Id", "Title");
             return View();
         }
 
@@ -79,8 +77,7 @@ namespace mns_games_web_app.Controllers
                     // convert to actual data entity
                     var quiz = _mapper.Map<Quiz>(createQuizVM);
                     quiz.AppUserId = user.Id;
-                    _context.Add(quiz);
-                    await _context.SaveChangesAsync();
+                    await _quizRepository.AddAsync(quiz);
                 }
                 else
                 {
@@ -88,35 +85,21 @@ namespace mns_games_web_app.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                foreach (var entry in ModelState)
-                {
-                    if (entry.Value.Errors.Any())
-                    {
-                        var errorMessage = entry.Value.Errors.First().ErrorMessage;
-                        // Log or display the error message
-                    }
-                }
-            }
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Title", createQuizVM.ThemeId);
+            var themes = await _themeRepository.GetAllAsync();
+            ViewData["ThemeId"] = new SelectList(themes, "Id", "Title", createQuizVM.ThemeId);
             return View(createQuizVM);
         }
 
         // GET: Quizs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Quizzes == null)
-            {
-                return NotFound();
-            }
-
-            var quiz = await _context.Quizzes.FindAsync(id);
+            var quiz = await _quizRepository.GetIncludesAsync(id, q => q.Theme, q => q.AppUser);
             if (quiz == null)
             {
                 return NotFound();
             }
-            ViewData["ThemeId"] = new SelectList(_context.Themes, "Id", "Id", quiz.ThemeId);
+            var themes = await _themeRepository.GetAllAsync();
+            ViewData["ThemeId"] = new SelectList(themes, "Id", "Title", quiz.ThemeId);
             var editQuizVM = _mapper.Map<EditQuizVM>(quiz);
             return View(editQuizVM);
         }
@@ -137,12 +120,11 @@ namespace mns_games_web_app.Controllers
                 try
                 {
                     var quiz = _mapper.Map<Quiz>(editQuizVM);
-                    _context.Update(quiz);
-                    await _context.SaveChangesAsync();
+                    await _quizRepository.UpdateAsync(quiz);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuizExists(editQuizVM.Id))
+                    if (!await QuizExists(editQuizVM.Id))
                     {
                         return NotFound();
                     }
@@ -156,47 +138,18 @@ namespace mns_games_web_app.Controllers
             return View(editQuizVM);
         }
 
-        // GET: Quizs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Quizzes == null)
-            {
-                return NotFound();
-            }
-
-            var quiz = await _context.Quizzes
-                .Include(q => q.Theme)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (quiz == null)
-            {
-                return NotFound();
-            }
-
-            return View(quiz);
-        }
-
         // POST: Quizs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Quizzes == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Quizzes'  is null.");
-            }
-            var quiz = await _context.Quizzes.FindAsync(id);
-            if (quiz != null)
-            {
-                _context.Quizzes.Remove(quiz);
-            }
-            
-            await _context.SaveChangesAsync();
+            await _quizRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool QuizExists(int id)
+        private async Task<bool> QuizExists(int id)
         {
-          return (_context.Quizzes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return await _quizRepository.Exists(id);
         }
     }
 }
