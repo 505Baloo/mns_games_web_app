@@ -43,7 +43,9 @@
 @section Scripts{
     <script>
         $(function(){
-            $('.table').DataTable();
+            $('.table').DataTable({
+                responsive: true
+            });
             $('.deleteBtn').click(function(e){
                 swal({
                     title: "Are you sure?",

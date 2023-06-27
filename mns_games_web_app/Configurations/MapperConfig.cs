@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using mns_games_web_app.Data;
 using mns_games_web_app.Models;
-using mns_games_web_app.Models.ViewModels;
 
 namespace mns_games_web_app.Configurations
 {
@@ -16,6 +15,8 @@ namespace mns_games_web_app.Configurations
             CreateMap<Quiz, EditQuizVM>().ReverseMap();
             CreateMap<AppUser, AppUserListVM>().ReverseMap();
             CreateMap<AppUser, AppUserQuizsVM>().ReverseMap();
+            CreateMap<Question, QuestionVM>().ReverseMap();
+            CreateMap<Question, CreateQuestionVM>().ReverseMap();
         }
     }
 }

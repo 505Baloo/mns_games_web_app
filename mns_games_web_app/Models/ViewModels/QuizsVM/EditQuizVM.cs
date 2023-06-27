@@ -7,6 +7,7 @@ namespace mns_games_web_app.Models
         public int Id { get; set; }
 
         [StringLength(200)]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name="Maximum Duration")]

@@ -1,17 +1,19 @@
-﻿@model CreateQuizVM
+﻿@model EditQuizVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "EditQuiz";
 }
 
-<h1>Create</h1>
+<h3>Edit @Model.Name</h3>
 
-<h4>Quiz</h4>
+<h4>EditQuizVM</h4>
 <hr />
 <div class="row">
-    <div class="col-md-8">
-        <form asp-action="Create">
+    <div class="col-md-6">
+        <form asp-action="EditQuiz">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="AppUserId" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -25,15 +27,15 @@
             </div>
             <br />
             @Html.DropDownListFor(model => model.ThemeId, (SelectList)ViewData["ThemeId"], "Select a theme", new { @class = "form-control" })
-            <span asp-validation-for="ThemeId" class="text-danger"></span>
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-dark">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-            <br />
         </form>
     </div>
 </div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 

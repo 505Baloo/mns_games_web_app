@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using mns_games_web_app.Abstract.Interfaces;
 using mns_games_web_app.Data;
 using mns_games_web_app.Models;
-using mns_games_web_app.Models.ViewModels;
 
 namespace mns_games_web_app.Repositories
 {

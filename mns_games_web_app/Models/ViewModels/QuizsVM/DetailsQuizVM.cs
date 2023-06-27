@@ -14,9 +14,9 @@ namespace mns_games_web_app.Models
         public TimeSpan? Duration { get; set; }
 
         [Display(Name = "Is about")]
-        public Theme Theme { get; set; }
+        public ThemeVM Theme { get; set; }
 
         [Display(Name = "Created by")]
-        public AppUser AppUser { get; set; }
+        public AppUserListVM AppUser { get; set; }
     }
 }

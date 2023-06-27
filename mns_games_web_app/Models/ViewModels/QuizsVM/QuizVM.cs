@@ -6,16 +6,19 @@ namespace mns_games_web_app.Models
 {
     public class QuizVM
     {
+        [Required]
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Maximum Duration")]
         public TimeSpan? Duration { get; set; }
 
-        public Theme Theme { get; set; }
+        [Required]
+        public ThemeVM Theme { get; set; }
 
         [Display(Name = "Creator")]
-        public AppUser AppUser { get; set; }
+        public AppUserListVM AppUser { get; set; }
     }
 }

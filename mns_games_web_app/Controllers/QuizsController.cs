@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using mns_games_web_app.Abstract.Interfaces;
 using mns_games_web_app.Data;
 using mns_games_web_app.Models;
-using mns_games_web_app.Models.ViewModels;
 
 namespace mns_games_web_app.Controllers
 {
@@ -62,8 +61,6 @@ namespace mns_games_web_app.Controllers
         }
 
         // POST: Quizs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateQuizVM createQuizVM)
@@ -72,11 +69,13 @@ namespace mns_games_web_app.Controllers
             {
                 // get connected user
                 var user = await _userManager.GetUserAsync(User);
-                if(user != null)
+                var theme = await _themeRepository.GetAsync(createQuizVM.ThemeId);
+                if(user != null && theme != null)
                 {
                     // convert to actual data entity
                     var quiz = _mapper.Map<Quiz>(createQuizVM);
                     quiz.AppUserId = user.Id;
+                    quiz.Theme = theme;
                     await _quizRepository.AddAsync(quiz);
                 }
                 else
@@ -86,7 +85,7 @@ namespace mns_games_web_app.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var themes = await _themeRepository.GetAllAsync();
-            ViewData["ThemeId"] = new SelectList(themes, "Id", "Title", createQuizVM.ThemeId);
+            ViewData["ThemeId"] = new SelectList(themes, "Id", "Title");
             return View(createQuizVM);
         }
 
@@ -105,8 +104,6 @@ namespace mns_games_web_app.Controllers
         }
 
         // POST: Quizs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditQuizVM editQuizVM)

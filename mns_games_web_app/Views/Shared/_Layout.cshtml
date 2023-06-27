@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mns_games_web_app.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" asp-append-version="true"/>
 </head>
 <body class="poppins">
     <header>
@@ -31,6 +32,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Quizs" asp-action="Index">Quizs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Questions" asp-action="Index">Questions</a>
                         </li>
                         @if (User.IsInRole(mns_games_web_app.Constants.Roles.Administrator))
                         {
@@ -61,6 +65,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

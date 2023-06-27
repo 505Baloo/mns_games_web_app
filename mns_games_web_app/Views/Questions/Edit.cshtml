@@ -1,0 +1,41 @@
+﻿@model mns_games_web_app.Data.Question
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Question</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="QuizId" class="control-label"></label>
+                <select asp-for="QuizId" class="form-control" asp-items="ViewBag.QuizId"></select>
+                <span asp-validation-for="QuizId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-warning m-1" />
+                <a class="btn btn-dark" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -6,6 +6,7 @@ namespace mns_games_web_app.Data
 {
     public class AppUser : IdentityUser
     {
+        [Required]
         [StringLength(32)]
         public string Nickname { get; set; }
 

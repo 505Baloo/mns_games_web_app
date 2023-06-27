@@ -2,12 +2,16 @@
 
 namespace mns_games_web_app.Models
 {
-    public class ThemeVM
+    public class CreateQuestionVM
     {
         public int Id { get; set; }
+
         [Required]
-        [Display(Name = "Name")]
-        [StringLength(200, ErrorMessage = "Please enter a valid Title")]
         public string Title { get; set; }
+
+        public TimeSpan? Duration { get; set; }
+
+        [Required]
+        public int QuizId { get; set; }
     }
 }

@@ -1,39 +1,39 @@
-﻿@model CreateQuizVM
+﻿@model CreateQuestionVM
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h3>Create</h3>
 
-<h4>Quiz</h4>
+<h4>Question</h4>
 <hr />
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <br />
             <div class="form-group">
                 <label asp-for="Duration" class="control-label"></label>
                 <input asp-for="Duration" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
-            <br />
-            @Html.DropDownListFor(model => model.ThemeId, (SelectList)ViewData["ThemeId"], "Select a theme", new { @class = "form-control" })
-            <span asp-validation-for="ThemeId" class="text-danger"></span>
-            <br />
+            <div class="form-group">
+                <label asp-for="QuizId" class="control-label"></label>
+                <select asp-for="QuizId" class ="form-control" asp-items="ViewBag.QuizId"></select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-dark">Back to List</a>
             </div>
-            <br />
         </form>
     </div>
 </div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 

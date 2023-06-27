@@ -3,102 +3,99 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mns_games_web_app.Data;
-using mns_games_web_app.Models;
 
 namespace mns_games_web_app.Controllers
 {
-    [Authorize]
-    public class ThemesController : Controller
+    public class AnswersController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ApplicationDbContext _context;
 
-        public ThemesController(ApplicationDbContext context, IMapper mapper)
+        public AnswersController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        // GET: Themes
+        // GET: Answers
         public async Task<IActionResult> Index()
         {
-            return _context.Themes != null ? 
-                        View(_mapper.Map<List<ThemeVM>>(await _context.Themes.ToListAsync())) :
-                        Problem("Entity set 'ApplicationDbContext.Themes' is null.");
+            var applicationDbContext = _context.Answers.Include(a => a.Question);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Themes/Details/5
+        // GET: Answers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Themes == null)
+            if (id == null || _context.Answers == null)
             {
                 return NotFound();
             }
 
-            var theme = await _context.Themes
+            var answer = await _context.Answers
+                .Include(a => a.Question)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (theme == null)
+            if (answer == null)
             {
                 return NotFound();
             }
 
-            ThemeVM themeVM = _mapper.Map<ThemeVM>(theme);
-            return View(themeVM);
+            return View(answer);
         }
 
-        // GET: Themes/Create
+        // GET: Answers/Create
         public IActionResult Create()
         {
+            ViewData["QuestionId"] = new SelectList(_context.Questions, "Id", "Id");
             return View();
         }
 
-        // POST: Themes/Create
+        // POST: Answers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ThemeVM themeVM)
+        public async Task<IActionResult> Create([Bind("Id,Title,IsCorrect,Points,NextQuestionId,QuestionId")] Answer answer)
         {
             if (ModelState.IsValid)
             {
-                var theme = _mapper.Map<Theme>(themeVM);
-                _context.Add(theme);
+                _context.Add(answer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(themeVM);
+            ViewData["QuestionId"] = new SelectList(_context.Questions, "Id", "Id", answer.QuestionId);
+            return View(answer);
         }
 
-        // GET: Themes/Edit/5
+        // GET: Answers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Themes == null)
+            if (id == null || _context.Answers == null)
             {
                 return NotFound();
             }
 
-            var theme = await _context.Themes.FindAsync(id);
-            if (theme == null)
+            var answer = await _context.Answers.FindAsync(id);
+            if (answer == null)
             {
                 return NotFound();
             }
-            var themeVM = _mapper.Map<ThemeVM>(theme);
-            return View(themeVM);
+            ViewData["QuestionId"] = new SelectList(_context.Questions, "Id", "Id", answer.QuestionId);
+            return View(answer);
         }
 
-        // POST: Themes/Edit/5
+        // POST: Answers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ThemeVM themeVM)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,IsCorrect,Points,NextQuestionId,QuestionId")] Answer answer)
         {
-            if (id != themeVM.Id)
+            if (id != answer.Id)
             {
                 return NotFound();
             }
@@ -107,13 +104,12 @@ namespace mns_games_web_app.Controllers
             {
                 try
                 {
-                    var theme = _mapper.Map<Theme>(themeVM);
-                    _context.Update(theme);
+                    _context.Update(answer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ThemeExists(themeVM.Id))
+                    if (!AnswerExists(answer.Id))
                     {
                         return NotFound();
                     }
@@ -124,49 +120,51 @@ namespace mns_games_web_app.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(themeVM);
+            ViewData["QuestionId"] = new SelectList(_context.Questions, "Id", "Id", answer.QuestionId);
+            return View(answer);
         }
 
-        // GET: Themes/Delete/5
+        // GET: Answers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Themes == null)
+            if (id == null || _context.Answers == null)
             {
                 return NotFound();
             }
 
-            var theme = await _context.Themes
+            var answer = await _context.Answers
+                .Include(a => a.Question)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (theme == null)
+            if (answer == null)
             {
                 return NotFound();
             }
 
-            return View(theme);
+            return View(answer);
         }
 
-        // POST: Themes/Delete/5
+        // POST: Answers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Themes == null)
+            if (_context.Answers == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Themes'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Answers'  is null.");
             }
-            var theme = await _context.Themes.FindAsync(id);
-            if (theme != null)
+            var answer = await _context.Answers.FindAsync(id);
+            if (answer != null)
             {
-                _context.Themes.Remove(theme);
+                _context.Answers.Remove(answer);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ThemeExists(int id)
+        private bool AnswerExists(int id)
         {
-          return (_context.Themes?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Answers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
