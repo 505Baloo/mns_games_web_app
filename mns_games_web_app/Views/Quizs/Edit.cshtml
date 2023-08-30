@@ -22,6 +22,11 @@
             </div>
             <br />
             <div class="form-group">
+                <label for="ThemeId">Select a theme</label>
+                <select class="form-control" id="ThemeIdDropdown" asp-for="ThemeId" asp-items="ViewBag.ThemeId"></select>
+            </div>
+            <br />
+            <div class="form-group">
                 <label asp-for="Duration" class="control-label"></label>
                 <input asp-for="Duration" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
@@ -34,3 +39,18 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    // Get a reference to the dropdown element
+    const themeIdDropdown = document.getElementById('ThemeIdDropdown');
+
+    // Attach an event listener to the dropdown's change event
+    themeIdDropdown.addEventListener('change', function () {
+        // Get the selected option's value
+        const selectedThemeId = parseInt(this.value);
+
+        // Update the hidden input's value to the selected theme ID
+        document.querySelector('input[name="ThemeId"]').value = selectedThemeId;
+    });
+</script>

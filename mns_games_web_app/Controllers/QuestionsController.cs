@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using mns_games_web_app.Models;
 
 namespace mns_games_web_app.Controllers
 {
+    [Authorize]
     public class QuestionsController : Controller
     {
         private readonly IMapper _mapper;

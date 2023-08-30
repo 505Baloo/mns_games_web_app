@@ -67,27 +67,36 @@ namespace mns_games_web_app.Controllers
         {
             if (ModelState.IsValid)
             {
-                // get connected user
                 var user = await _userManager.GetUserAsync(User);
                 var theme = await _themeRepository.GetAsync(createQuizVM.ThemeId);
-                if(user != null && theme != null)
+
+                if (user != null)
                 {
-                    // convert to actual data entity
-                    var quiz = _mapper.Map<Quiz>(createQuizVM);
-                    quiz.AppUserId = user.Id;
-                    quiz.Theme = theme;
-                    await _quizRepository.AddAsync(quiz);
+                    if (theme != null)
+                    {
+                        var quiz = _mapper.Map<Quiz>(createQuizVM);
+                        quiz.AppUserId = user.Id;
+                        quiz.Theme = theme;
+                        await _quizRepository.AddAsync(quiz);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Please select a valid theme.");
+                    }
+
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     return RedirectToAction("Login", "Account");
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             var themes = await _themeRepository.GetAllAsync();
             ViewData["ThemeId"] = new SelectList(themes, "Id", "Title");
             return View(createQuizVM);
         }
+
 
         // GET: Quizs/Edit/5
         public async Task<IActionResult> Edit(int? id)

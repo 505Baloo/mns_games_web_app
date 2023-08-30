@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using mns_games_web_app.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace mns_games_web_app.Models
 {
@@ -12,7 +13,9 @@ namespace mns_games_web_app.Models
 
         [Display(Name="Maximum Duration")]
         public TimeSpan? Duration { get; set; }
-        
+
+        [Required]
+        [CustomSelectValidator]
         public int ThemeId { get; set; }
 
         public string AppUserId { get; set; }

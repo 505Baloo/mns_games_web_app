@@ -19,6 +19,7 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
 builder.Services.AddTransient<IEmailSender>(options => new EmailSender("smtp-relay.sendinblue.com", 587, "noreply.mnsgames@gmail.com"));
 
 builder.Services.AddScoped(typeof(IBasicRepository<>), typeof(BasicRepository<>));

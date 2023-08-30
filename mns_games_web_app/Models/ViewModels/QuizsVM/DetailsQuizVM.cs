@@ -20,3 +20,4 @@ namespace mns_games_web_app.Models
         public AppUserListVM AppUser { get; set; }
     }
 }
+
