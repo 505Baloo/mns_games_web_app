@@ -18,6 +18,8 @@ namespace mns_games_web_app.Models
 
         [Display(Name = "Created by")]
         public AppUserListVM AppUser { get; set; }
+
+        public ICollection<QuestionVM> Questions { get; set; }
     }
 }
 

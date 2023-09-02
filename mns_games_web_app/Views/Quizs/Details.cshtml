@@ -4,13 +4,11 @@
     ViewData["Title"] = "Details";
 }
 
-<h3>Details</h3>
-
 <div>
     <div class="row">
         <div class="col-sm-6">
         <div class="card">
-          <h5 class="card-header">Quiz</h5>
+          <h5 class="card-header">Quiz's Details</h5>
           <div class="card-body">
                     <p class="card-title">Created by : @Html.DisplayFor(model => model.AppUser.Nickname)</p>
                     <p class="card-text">@Html.DisplayNameFor(model => model.Id) : @Html.DisplayFor(model => model.Id)</p>
@@ -20,7 +18,29 @@
                     <a asp-action="Edit" class="btn btn-primary m-2" asp-route-id="@Model?.Id">Edit</a>
                     <a asp-action="Index" class="btn btn-dark">Back to List</a>
           </div>
+            </div>
         </div>
+            <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Questions</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @if(Model?.Questions != null)
+                        @foreach (var question in Model.Questions)
+                        {
+                            <li class="list-group-item">
+                                <h6>
+                                    <button type="button" class="btn btn-primary">
+                                        @Html.DisplayNameFor(q => question.Title)
+                                        <span class="badge text-bg-secondary">@question.Title</span>
+                                    </button>
+                                    <a class="btn btn-warning" asp-action="EditQuestion" asp-route-id="@question.Id"><i class="fas fa-pencil-alt"></i> Edit Question</a>
+                                </h6>
+                            </li>
+                        }
+                </ul>
+            </div>
         </div>
     </div>
 </div>

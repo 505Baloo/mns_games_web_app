@@ -21,5 +21,7 @@ namespace mns_games_web_app.Data
         [ForeignKey("AppUserId")]
         public AppUser AppUser { get; set; }
         public string AppUserId { get; set; }
+
+        public ICollection<Question> Questions { get; set; }
     }
 }

@@ -34,7 +34,6 @@ namespace mns_games_web_app.Controllers
         // GET: Quizs
         public async Task<IActionResult> Index()
         {
-
             var quizs = await _quizRepository.GetAllIncludesAsync(q => q.Theme, q => q.AppUser);
             var quizsVM = _mapper.Map<List<QuizVM>>(quizs);
             return View(quizsVM);
@@ -43,12 +42,13 @@ namespace mns_games_web_app.Controllers
         // GET: Quizs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var quiz = await _quizRepository.GetIncludesAsync(id, q => q.Theme, q => q.AppUser);
+            var quiz = await _quizRepository.GetIncludesAsync(id, q => q.Theme, q => q.AppUser, q => q.Questions);
+
             if (quiz == null)
-            {
                 return NotFound();
-            }
+
             DetailsQuizVM detailsQuizVM = _mapper.Map<DetailsQuizVM>(quiz);
+
             return View(detailsQuizVM);
         }
 
@@ -70,30 +70,23 @@ namespace mns_games_web_app.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 var theme = await _themeRepository.GetAsync(createQuizVM.ThemeId);
 
-                if (user != null)
-                {
-                    if (theme != null)
-                    {
-                        var quiz = _mapper.Map<Quiz>(createQuizVM);
-                        quiz.AppUserId = user.Id;
-                        quiz.Theme = theme;
-                        await _quizRepository.AddAsync(quiz);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Please select a valid theme.");
-                    }
-
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
+                if (user == null)
                     return RedirectToAction("Login", "Account");
-                }
+
+                if (theme == null)
+                    ModelState.AddModelError(string.Empty, "Please select a valid theme.");
+
+                var quiz = _mapper.Map<Quiz>(createQuizVM);
+                quiz.AppUserId = user.Id;
+                quiz.Theme = theme;
+                await _quizRepository.AddAsync(quiz);
+
+                return RedirectToAction(nameof(Index));
             }
 
             var themes = await _themeRepository.GetAllAsync();
             ViewData["ThemeId"] = new SelectList(themes, "Id", "Title");
+
             return View(createQuizVM);
         }
 
@@ -102,13 +95,14 @@ namespace mns_games_web_app.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var quiz = await _quizRepository.GetIncludesAsync(id, q => q.Theme, q => q.AppUser);
+
             if (quiz == null)
-            {
                 return NotFound();
-            }
+            
             var themes = await _themeRepository.GetAllAsync();
             ViewData["ThemeId"] = new SelectList(themes, "Id", "Title", quiz.ThemeId);
             var editQuizVM = _mapper.Map<EditQuizVM>(quiz);
+
             return View(editQuizVM);
         }
 
@@ -118,29 +112,27 @@ namespace mns_games_web_app.Controllers
         public async Task<IActionResult> Edit(int id, EditQuizVM editQuizVM)
         {
             if (id != editQuizVM.Id)
-            {
                 return NotFound();
-            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     var quiz = _mapper.Map<Quiz>(editQuizVM);
                     await _quizRepository.UpdateAsync(quiz);
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!await QuizExists(editQuizVM.Id))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
-                return RedirectToAction(nameof(Index));
             }
+            var themes = await _themeRepository.GetAllAsync();
+            ViewData["ThemeId"] = new SelectList(themes, "Id", "Title", editQuizVM.ThemeId);
+
             return View(editQuizVM);
         }
 
